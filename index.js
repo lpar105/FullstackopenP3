@@ -30,7 +30,7 @@ app.get("/api/persons/:id", (request, response) => {
   if (person) {
     response.json(person);
   } else {
-    response.status(204).end();
+    response.status(404).end();
   }
 });
 
@@ -42,6 +42,13 @@ app.get("/info", (request, response) => {
   const time = new Date().toLocaleString();
   const count = persons.length;
   response.send(`<h2>Phonebook has info for ${count} people.</h2> ${time}`);
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== id);
+
+  response.status(204).end();
 });
 
 const PORT = 3001;
